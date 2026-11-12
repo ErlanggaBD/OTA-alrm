@@ -1,0 +1,137 @@
+<%- include('header') %>
+<section class="page-head">
+  <div>
+    <h1><%= device.email %></h1>
+    <p class="muted">Serial <code><%= device.serial %></code> · HW <code><%= device.hw_rev %></code> · dibuat <%= device.created_at %></p>
+  </div>
+  <a class="btn ghost" href="/admin">← Kembali</a>
+</section>
+
+<form method="post" action="/admin/devices/<%= device.id %>" class="stack">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+
+  <section class="card form-card">
+    <h2>Identitas & Paket</h2>
+    <div class="grid-2">
+      <label>Email ID
+        <input name="email" type="email" value="<%= device.email %>" required>
+      </label>
+      <label>Serial
+        <input name="serial" value="<%= device.serial %>" required>
+      </label>
+      <label>Hardware Revision
+        <input name="hw_rev" value="<%= device.hw_rev %>">
+      </label>
+      <label>Jumlah Sensor Aktif (kuota)
+        <select name="active_sensors">
+          <% for (let i = 1; i <= 8; i++) { %><option value="<%= i %>" <%= device.active_sensors === i ? 'selected' : '' %>><%= i %> sensor</option><% } %>
+        </select>
+      </label>
+      <label>Plan
+        <input name="plan" value="<%= device.plan %>">
+      </label>
+      <label>Quota Expires At
+        <input name="quota_expires_at" value="<%= device.quota_expires_at || '' %>" placeholder="2027-01-01T00:00:00.000Z">
+      </label>
+    </div>
+  </section>
+
+  <section class="card form-card">
+    <h2>Kebijakan Internet & Lock</h2>
+    <div class="grid-2">
+      <label>Lock Policy
+        <select name="lock_policy">
+          <option value="provision_only" <%= device.lock_policy === 'provision_only' ? 'selected' : '' %>>provision_only — internet hanya saat registrasi</option>
+          <option value="grace" <%= device.lock_policy === 'grace' ? 'selected' : '' %>>grace — wajib sync, ada masa tenggang</option>
+          <option value="strict" <%= device.lock_policy === 'strict' ? 'selected' : '' %>>strict — wajib internet tiap boot</option>
+        </select>
+      </label>
+      <label>Offline Action
+        <select name="offline_action">
+          <option value="keep_last" <%= device.offline_action === 'keep_last' ? 'selected' : '' %>>keep_last — pakai kuota terakhir</option>
+          <option value="fallback_default" <%= device.offline_action === 'fallback_default' ? 'selected' : '' %>>fallback_default — turun ke default</option>
+          <option value="lock_ui" <%= device.offline_action === 'lock_ui' ? 'selected' : '' %>>lock_ui — kunci dashboard, alarm tetap</option>
+        </select>
+      </label>
+      <label>Grace Days
+        <input name="grace_days" type="number" min="0" max="365" value="<%= device.grace_days %>">
+      </label>
+      <label>Default Active Sensors
+        <select name="default_active_sensors">
+          <% for (let i = 1; i <= 8; i++) { %><option value="<%= i %>" <%= device.default_active_sensors === i ? 'selected' : '' %>><%= i %> sensor</option><% } %>
+        </select>
+      </label>
+      <label class="check">
+        <input type="checkbox" name="allow_local_override" value="1" <%= device.allow_local_override ? 'checked' : '' %>>
+        Izinkan admin lokal mengubah lock policy
+      </label>
+      <label class="check">
+        <input type="checkbox" name="auto_ota" value="1" <%= device.auto_ota ? 'checked' : '' %>>
+        Izinkan cloud OTA otomatis
+      </label>
+      <label>Firmware Channel
+        <select name="fw_channel">
+          <option value="stable" <%= device.fw_channel === 'stable' ? 'selected' : '' %>>stable</option>
+          <option value="beta" <%= device.fw_channel === 'beta' ? 'selected' : '' %>>beta</option>
+          <option value="dev" <%= device.fw_channel === 'dev' ? 'selected' : '' %>>dev</option>
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <section class="card form-card">
+    <h2>Label Sensor</h2>
+    <div class="grid-4">
+      <% for (let i = 0; i < 8; i++) { %>
+        <label>Sensor <%= i + 1 %>
+          <input name="label_<%= i %>" value="<%= device.sensor_labels[i] || '' %>" maxlength="23">
+        </label>
+      <% } %>
+    </div>
+  </section>
+
+  <section class="card form-card">
+    <h2>Threshold Sensor</h2>
+    <p class="muted">Nilai alarm utama (contoh: suhu °C untuk DHT22). Sensor non-aktif tetap menyimpan threshold untuk dipakai saat kuota naik.</p>
+    <div class="table-scroll">
+      <table class="compact">
+        <thead>
+          <tr><th>#</th><th>Warn Low</th><th>Alarm Low</th><th>Warn High</th><th>Alarm High</th><th>Hysteresis</th><th>Unit</th></tr>
+        </thead>
+        <tbody>
+          <% for (let i = 0; i < 8; i++) { const t = device.thresholds[i] || {}; %>
+            <tr>
+              <td><strong><%= i + 1 %></strong></td>
+              <td><input name="th_warn_low_<%= i %>" type="number" step="0.1" value="<%= t.warn_low ?? 5 %>"></td>
+              <td><input name="th_alarm_low_<%= i %>" type="number" step="0.1" value="<%= t.alarm_low ?? 2 %>"></td>
+              <td><input name="th_warn_high_<%= i %>" type="number" step="0.1" value="<%= t.warn_high ?? 35 %>"></td>
+              <td><input name="th_alarm_high_<%= i %>" type="number" step="0.1" value="<%= t.alarm_high ?? 40 %>"></td>
+              <td><input name="th_hysteresis_<%= i %>" type="number" step="0.1" value="<%= t.hysteresis ?? 0.5 %>"></td>
+              <td><input name="th_unit_<%= i %>" value="<%= t.unit || 'C' %>" maxlength="7"></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card form-card">
+    <h2>Catatan</h2>
+    <textarea name="notes" rows="3"><%= device.notes || '' %></textarea>
+    <div class="form-actions">
+      <button class="btn primary" type="submit">Simpan Perubahan</button>
+    </div>
+  </section>
+</form>
+
+<section class="card danger-zone">
+  <div>
+    <h2>Hapus Device</h2>
+    <p class="muted">Device akan kehilangan akses cloud. Alarm lokal tidak terpengaruh sampai device di-factory-reset.</p>
+  </div>
+  <form method="post" action="/admin/devices/<%= device.id %>/delete" data-confirm="Hapus device ini?">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <button class="btn danger" type="submit">Hapus Device</button>
+  </form>
+</section>
+<%- include('footer') %>

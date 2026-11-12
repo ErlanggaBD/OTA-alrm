@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> · MedGas Vendor</title>
+  <link rel="stylesheet" href="/admin-assets/admin.css">
+</head>
+<body class="login-page">
+  <main class="login-card">
+    <div class="brand login-brand">
+      <span class="brand-mark">MG</span>
+      <span>MedGas <strong>Vendor</strong></span>
+    </div>
+    <h1>Masuk Vendor Console</h1>
+    <p class="muted">Kelola kuota sensor, firmware, dan konfigurasi alat berdasarkan Email ID.</p>
+    <% if (error) { %><div class="flash error"><%= error %></div><% } %>
+    <form method="post" action="/admin/login" class="stack">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label>Username
+        <input name="username" autocomplete="username" required autofocus>
+      </label>
+      <label>Password
+        <input name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <button class="btn primary" type="submit">Masuk</button>
+    </form>
+  </main>
+</body>
+</html>

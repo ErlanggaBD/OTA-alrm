@@ -1,0 +1,63 @@
+<%- include('header') %>
+<section class="page-head">
+  <div>
+    <h1>Firmware</h1>
+    <p class="muted">Upload binary hasil build Arduino IDE atau ESP-IDF. Manifest akan dikirim ke device saat sync.</p>
+  </div>
+</section>
+
+<form method="post" action="/admin/firmware" enctype="multipart/form-data" class="card form-card">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <h2>Upload Firmware</h2>
+  <div class="grid-2">
+    <label>Hardware Revision
+      <input name="hw_rev" value="esp32-devkit-4mb" required>
+    </label>
+    <label>Versi (x.y.z)
+      <input name="version" placeholder="1.1.0" required>
+    </label>
+    <label>Channel
+      <select name="channel">
+        <option value="stable">stable</option>
+        <option value="beta">beta</option>
+        <option value="dev">dev</option>
+      </select>
+    </label>
+    <label>File .bin
+      <input name="firmware" type="file" accept=".bin,application/octet-stream" required>
+    </label>
+  </div>
+  <label>Release Notes
+    <textarea name="release_notes" rows="3"></textarea>
+  </label>
+  <div class="form-actions">
+    <button class="btn primary" type="submit">Upload</button>
+  </div>
+</form>
+
+<section class="card table-card">
+  <h2>Manifest Tersimpan</h2>
+  <table>
+    <thead><tr><th>HW</th><th>Versi</th><th>Channel</th><th>Ukuran</th><th>SHA-256</th><th>Dibuat</th><th></th></tr></thead>
+    <tbody>
+      <% if (!firmware.length) { %><tr><td colspan="7" class="empty">Belum ada firmware.</td></tr><% } %>
+      <% for (const f of firmware) { %>
+        <tr>
+          <td><code><%= f.hw_rev %></code></td>
+          <td><strong><%= f.version %></strong></td>
+          <td><span class="pill"><%= f.channel %></span></td>
+          <td><%= (f.size / 1024).toFixed(1) %> KB</td>
+          <td><code class="hash"><%= f.sha256 %></code></td>
+          <td class="muted"><%= f.created_at %></td>
+          <td>
+            <form method="post" action="/admin/firmware/<%= f.id %>/delete" data-confirm="Hapus firmware ini?">
+              <input type="hidden" name="_csrf" value="<%= csrf %>">
+              <button class="btn small danger" type="submit">Hapus</button>
+            </form>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</section>
+<%- include('footer') %>

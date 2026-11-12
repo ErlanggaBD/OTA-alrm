@@ -1,0 +1,25 @@
+<%- include('header') %>
+<section class="page-head">
+  <div>
+    <h1>Events</h1>
+    <p class="muted">200 event terakhir: provisioning, sync, heartbeat, perubahan admin.</p>
+  </div>
+</section>
+
+<section class="card table-card">
+  <table>
+    <thead><tr><th>Waktu</th><th>Email</th><th>Type</th><th>Payload</th></tr></thead>
+    <tbody>
+      <% if (!events.length) { %><tr><td colspan="4" class="empty">Belum ada event.</td></tr><% } %>
+      <% for (const e of events) { %>
+        <tr>
+          <td class="muted nowrap"><%= e.created_at %></td>
+          <td><%= e.email || '—' %></td>
+          <td><span class="pill"><%= e.type %></span></td>
+          <td><code class="payload"><%= e.payload ? JSON.stringify(e.payload) : '' %></code></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</section>
+<%- include('footer') %>

@@ -1,0 +1,41 @@
+<%- include('header') %>
+<section class="page-head">
+  <div>
+    <h1>Tambah Device</h1>
+    <p class="muted">Device akan bisa provisioning dengan email dan serial yang sama.</p>
+  </div>
+  <a class="btn ghost" href="/admin">← Kembali</a>
+</section>
+
+<form method="post" action="/admin/devices" class="card form-card">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <div class="grid-2">
+    <label>Email ID Alat
+      <input name="email" type="email" placeholder="alat@rumah-sakit.id" required>
+    </label>
+    <label>Serial Number
+      <input name="serial" placeholder="MG-ESP32-0001" required>
+    </label>
+    <label>Hardware Revision
+      <input name="hw_rev" value="esp32-devkit-4mb">
+    </label>
+    <label>Jumlah Sensor Aktif
+      <select name="active_sensors">
+        <% for (let i = 1; i <= 8; i++) { %><option value="<%= i %>" <%= i === 4 ? 'selected' : '' %>><%= i %> sensor</option><% } %>
+      </select>
+    </label>
+    <label>Plan
+      <input name="plan" value="basic">
+    </label>
+    <label>Quota Expires At (ISO)
+      <input name="quota_expires_at" placeholder="2027-01-01T00:00:00.000Z">
+    </label>
+  </div>
+  <label>Catatan
+    <textarea name="notes" rows="3" placeholder="Opsional"></textarea>
+  </label>
+  <div class="form-actions">
+    <button class="btn primary" type="submit">Simpan Device</button>
+  </div>
+</form>
+<%- include('footer') %>

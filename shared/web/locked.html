@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>MedGas Alarm · Terkunci</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="locked" class="centered-page">
+  <main class="auth-card locked-card">
+    <div class="brand auth-brand">
+      <span class="brand-mark">MG</span>
+      <div><strong>MedGas Alarm</strong><small>Mode terkunci</small></div>
+    </div>
+    <div class="lock-icon">🔒</div>
+    <h1>Dashboard terkunci</h1>
+    <p id="lock-reason" class="muted">Perangkat membutuhkan koneksi internet sesuai kebijakan yang aktif.</p>
+    <div class="lock-status">
+      <span>Alarm lokal</span>
+      <strong id="lock-alarm">Tetap aktif</strong>
+    </div>
+    <div class="actions">
+      <button id="retry-btn" class="btn primary" type="button">Coba lagi</button>
+      <a class="btn ghost" href="/login">Login admin</a>
+    </div>
+    <p class="muted tiny">Buzzer, relay, dan pembacaan sensor tidak bergantung pada dashboard.</p>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

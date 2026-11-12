@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>MedGas Alarm · Login</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="login" class="centered-page">
+  <main class="auth-card">
+    <div class="brand auth-brand">
+      <span class="brand-mark">MG</span>
+      <div><strong>MedGas Alarm</strong><small>Dashboard lokal</small></div>
+    </div>
+    <h1>Masuk</h1>
+    <p class="muted">Gunakan password admin yang dibuat saat registrasi awal.</p>
+    <form id="login-form" class="stack">
+      <label>Password admin
+        <input id="login-password" type="password" autocomplete="current-password" required autofocus>
+      </label>
+      <p id="login-error" class="form-error hidden"></p>
+      <button class="btn primary" type="submit">Masuk</button>
+    </form>
+    <p class="muted tiny">Alarm lokal tetap berjalan meskipun dashboard tidak dibuka.</p>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

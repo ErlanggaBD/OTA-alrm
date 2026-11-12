@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>MedGas Alarm · Pengaturan</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="settings">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">MG</span>
+      <div>
+        <strong>MedGas Alarm</strong>
+        <small>Pengaturan perangkat</small>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a class="btn ghost" href="/">← Dashboard</a>
+      <button id="logout-btn" class="btn ghost" type="button">Keluar</button>
+    </div>
+  </header>
+
+  <main class="wrap settings-wrap">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Identitas perangkat</h2>
+        <span id="settings-cloud" class="chip">Cloud —</span>
+      </div>
+      <div id="device-info" class="kv-grid"><p class="muted">Memuat…</p></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Kuota & kebijakan internet</h2>
+        <span class="pill">Cloud‑managed</span>
+      </div>
+      <p class="muted">Jumlah sensor aktif hanya bisa diubah vendor melalui cloud. Pengaturan lokal di bawah berlaku jika diizinkan vendor.</p>
+      <div class="form-grid">
+        <label>Jumlah sensor aktif
+          <input id="active-sensors" type="text" disabled>
+        </label>
+        <label>Plan
+          <input id="plan" type="text" disabled>
+        </label>
+        <label>Kuota berlaku sampai
+          <input id="quota-expires" type="text" disabled>
+        </label>
+        <label>Lock policy
+          <select id="lock-policy">
+            <option value="provision_only">provision_only — internet hanya saat registrasi</option>
+            <option value="grace">grace — wajib sync dengan masa tenggang</option>
+            <option value="strict">strict — wajib internet tiap boot</option>
+          </select>
+        </label>
+        <label>Offline action
+          <select id="offline-action" disabled>
+            <option value="keep_last">keep_last — pakai kuota terakhir</option>
+            <option value="fallback_default">fallback_default — turun ke default</option>
+            <option value="lock_ui">lock_ui — kunci dashboard, alarm tetap</option>
+          </select>
+        </label>
+        <label>Grace period (hari)
+          <input id="grace-days" type="number" min="0" max="365" disabled>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="save-policy" class="btn primary" type="button">Simpan kebijakan</button>
+        <button id="sync-now" class="btn" type="button">Sync cloud sekarang</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Threshold sensor aktif</h2>
+        <span id="threshold-count" class="pill">—</span>
+      </div>
+      <p class="muted">Hanya sensor aktif yang ditampilkan. Nilai disimpan untuk semua channel agar siap saat kuota naik.</p>
+      <div class="table-scroll">
+        <table class="settings-table">
+          <thead>
+            <tr><th>Sensor</th><th>Warn Low</th><th>Alarm Low</th><th>Warn High</th><th>Alarm High</th><th>Hysteresis</th><th>Unit</th></tr>
+          </thead>
+          <tbody id="threshold-body"></tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <button id="save-thresholds" class="btn primary" type="button">Simpan threshold</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Update firmware (OTA)</h2>
+        <span id="ota-status" class="chip">idle</span>
+      </div>
+      <p class="muted">Upload file <code>.bin</code> hasil build Arduino IDE atau ESP-IDF. Jangan matikan alat saat proses berjalan.</p>
+      <div class="form-grid">
+        <label>File firmware
+          <input id="ota-file" type="file" accept=".bin,application/octet-stream">
+        </label>
+      </div>
+      <div class="progress hidden" id="ota-progress-wrap">
+        <div class="progress-bar"><span id="ota-progress"></span></div>
+        <small id="ota-progress-text">0%</small>
+      </div>
+      <div class="actions">
+        <button id="ota-upload" class="btn primary" type="button">Upload & install</button>
+        <button id="ota-cloud" class="btn hidden" type="button">Install dari cloud</button>
+      </div>
+      <p id="ota-note" class="muted"></p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Log perangkat</h2>
+        <button id="refresh-logs" class="btn small ghost" type="button">Muat ulang</button>
+      </div>
+      <div id="logs" class="logs"><p class="muted">Memuat log…</p></div>
+    </section>
+
+    <section class="panel danger-zone">
+      <div>
+        <h2>Factory reset</h2>
+        <p class="muted">Menghapus Email ID, Wi‑Fi, kuota, dan secret. Alat kembali ke mode captive portal. Tindakan ini tidak bisa dibatalkan.</p>
+      </div>
+      <div class="danger-actions">
+        <input id="reset-confirm" type="text" placeholder="Ketik RESET">
+        <button id="factory-reset" class="btn danger" type="button">Factory reset</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>Reboot</h2></div>
+      <p class="muted">Restart perangkat tanpa menghapus konfigurasi.</p>
+      <div class="actions"><button id="reboot" class="btn" type="button">Reboot sekarang</button></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="alert"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>MedGas Alarm · Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="dashboard">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">MG</span>
+      <div>
+        <strong>MedGas Alarm</strong>
+        <small id="device-email">memuat…</small>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span id="cloud-chip" class="chip">Cloud —</span>
+      <span id="wifi-chip" class="chip">Wi‑Fi —</span>
+      <a class="btn ghost" href="/settings">Pengaturan</a>
+      <button id="logout-btn" class="btn ghost" type="button">Keluar</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="alarm-banner" class="banner normal" role="status">
+      <div class="banner-icon" id="alarm-icon">✓</div>
+      <div class="banner-copy">
+        <strong id="alarm-title">Sistem normal</strong>
+        <span id="alarm-detail">Menunggu data sensor…</span>
+      </div>
+      <button id="ack-btn" class="btn danger hidden" type="button">Acknowledge</button>
+    </section>
+
+    <section class="overview">
+      <article class="stat">
+        <span class="stat-label">Sensor aktif</span>
+        <strong id="stat-sensors">—</strong>
+        <small id="stat-sensors-note">berdasarkan paket</small>
+      </article>
+      <article class="stat">
+        <span class="stat-label">Status alarm</span>
+        <strong id="stat-alarm">—</strong>
+        <small id="stat-alarm-note">—</small>
+      </article>
+      <article class="stat">
+        <span class="stat-label">Sinkron cloud</span>
+        <strong id="stat-sync">—</strong>
+        <small id="stat-sync-note">—</small>
+      </article>
+      <article class="stat">
+        <span class="stat-label">Firmware</span>
+        <strong id="stat-fw">—</strong>
+        <small id="stat-fw-note">—</small>
+      </article>
+    </section>
+
+    <section class="section-head">
+      <div>
+        <h1>Sensor</h1>
+        <p class="muted">Card dan fungsi sensor non-aktif disembunyikan otomatis sesuai kuota paket.</p>
+      </div>
+      <span id="sensor-count" class="pill">—</span>
+    </section>
+
+    <section id="sensor-grid" class="sensor-grid" aria-live="polite"></section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Log peristiwa</h2>
+        <button id="refresh-logs" class="btn small ghost" type="button">Muat ulang</button>
+      </div>
+      <div id="logs" class="logs"><p class="muted">Memuat log…</p></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="alert"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

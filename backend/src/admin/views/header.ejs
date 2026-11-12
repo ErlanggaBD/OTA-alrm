@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> · MedGas Vendor</title>
+  <link rel="stylesheet" href="/admin-assets/admin.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/admin">
+      <span class="brand-mark">MG</span>
+      <span>MedGas <strong>Vendor</strong></span>
+    </a>
+    <% if (typeof admin !== 'undefined' && admin) { %>
+      <nav class="nav">
+        <a href="/admin" class="<%= path === '/' ? 'active' : '' %>">Devices</a>
+        <a href="/admin/firmware" class="<%= path === '/firmware' ? 'active' : '' %>">Firmware</a>
+        <a href="/admin/events" class="<%= path === '/events' ? 'active' : '' %>">Events</a>
+        <span class="who"><%= admin.username %></span>
+        <form method="post" action="/admin/logout" class="inline">
+          <input type="hidden" name="_csrf" value="<%= csrf %>">
+          <button class="btn ghost" type="submit">Logout</button>
+        </form>
+      </nav>
+    <% } %>
+  </header>
+  <main class="container">
+    <% if (typeof flash !== 'undefined' && flash) { %>
+      <div class="flash <%= flash.type %>"><%= flash.message %></div>
+    <% } %>

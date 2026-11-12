@@ -1,0 +1,45 @@
+<%- include('header') %>
+<section class="page-head">
+  <div>
+    <h1>Devices</h1>
+    <p class="muted">Total <%= devices.length %> device terdaftar. Klik device untuk mengubah kuota sensor dan kebijakan.</p>
+  </div>
+  <a class="btn primary" href="/admin/devices/new">+ Tambah Device</a>
+</section>
+
+<section class="card table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Email ID</th>
+        <th>Serial</th>
+        <th>Sensor</th>
+        <th>Plan</th>
+        <th>Quota</th>
+        <th>Lock Policy</th>
+        <th>Last Seen</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (!devices.length) { %>
+        <tr><td colspan="9" class="empty">Belum ada device. Tambahkan device atau jalankan <code>npm run seed</code>.</td></tr>
+      <% } %>
+      <% for (const d of devices) { %>
+        <tr>
+          <td><span class="dot <%= d.online ? 'online' : 'offline' %>"></span><%= d.online ? 'Online' : 'Offline' %></td>
+          <td><a href="/admin/devices/<%= d.id %>"><%= d.email %></a></td>
+          <td><code><%= d.serial %></code></td>
+          <td><span class="pill"><%= d.active_sensors %> / 8</span></td>
+          <td><%= d.plan %></td>
+          <td><%= d.quota_expires_at ? d.quota_expires_at.slice(0, 10) : '—' %></td>
+          <td><span class="pill muted-pill"><%= d.lock_policy %></span></td>
+          <td class="muted"><%= d.last_seen ? d.last_seen.replace('T', ' ').slice(0, 19) : '—' %></td>
+          <td class="right"><a class="btn small" href="/admin/devices/<%= d.id %>">Edit</a></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</section>
+<%- include('footer') %>

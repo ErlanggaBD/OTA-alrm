@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>MedGas Alarm · Registrasi</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="setup" class="centered-page setup-page">
+  <main class="setup-card">
+    <div class="brand auth-brand">
+      <span class="brand-mark">MG</span>
+      <div><strong>MedGas Alarm</strong><small id="setup-mode">Registrasi awal</small></div>
+    </div>
+
+    <h1 id="setup-title">Daftarkan alat</h1>
+    <p id="setup-intro" class="muted">Masukkan Email ID alat, pilih Wi‑Fi, dan buat password admin. Data disimpan permanen setelah koneksi internet berhasil.</p>
+
+    <div id="setup-status" class="banner info">
+      <div class="banner-icon">1</div>
+      <div class="banner-copy">
+        <strong>Terhubung ke AP alat</strong>
+        <span>Isi form di bawah untuk melanjutkan.</span>
+      </div>
+    </div>
+
+    <form id="setup-form" class="stack">
+      <label>Email ID alat
+        <input id="setup-email" type="email" placeholder="alat@rumah-sakit.id" required autocomplete="email">
+        <small class="hint">Email ini menjadi identitas alat untuk kontrol kuota vendor.</small>
+      </label>
+
+      <label>Jaringan Wi‑Fi
+        <div class="input-row">
+          <select id="setup-ssid-select">
+            <option value="">— pilih jaringan —</option>
+          </select>
+          <button id="scan-btn" class="btn" type="button">Scan</button>
+        </div>
+      </label>
+
+      <label>Nama Wi‑Fi (SSID)
+        <input id="setup-ssid" placeholder="Nama jaringan" required autocomplete="off">
+      </label>
+
+      <label>Password Wi‑Fi
+        <input id="setup-wifi-pass" type="password" autocomplete="current-password">
+      </label>
+
+      <label>Password admin dashboard
+        <input id="setup-admin-pass" type="password" minlength="8" required autocomplete="new-password">
+        <small class="hint" id="admin-pass-hint">Minimal 8 karakter. Dipakai untuk login dashboard lokal.</small>
+      </label>
+
+      <details class="advanced">
+        <summary>Pengaturan lanjutan</summary>
+        <label>Alamat server vendor
+          <input id="setup-api-base" placeholder="https://api.vendor.example" autocomplete="url">
+          <small class="hint">Kosongkan untuk memakai default firmware.</small>
+        </label>
+      </details>
+
+      <p id="setup-error" class="form-error hidden"></p>
+
+      <button id="setup-submit" class="btn primary" type="submit">Hubungkan & simpan</button>
+    </form>
+
+    <div id="setup-progress" class="progress hidden">
+      <div class="progress-bar"><span id="setup-progress-bar"></span></div>
+      <small id="setup-progress-text">Menghubungkan…</small>
+    </div>
+
+    <ol class="setup-steps">
+      <li>Koneksi Wi‑Fi diverifikasi.</li>
+      <li>Alat menghubungi server vendor untuk registrasi Email ID.</li>
+      <li>Konfigurasi kuota disimpan di memori internal.</li>
+      <li>Alat reboot ke dashboard utama.</li>
+    </ol>
+
+    <p class="muted tiny">Jika koneksi internet gagal, alat tetap di mode registrasi dan dashboard lokal tidak dapat dibuka.</p>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

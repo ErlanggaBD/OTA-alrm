@@ -1,0 +1,9 @@
+# MedGasAlarm partition table for ESP32 DevKit with 4 MB flash.
+# Two OTA app slots (1.875 MB each) + 128 KB SPIFFS for the local web UI.
+# Name,   Type, SubType, Offset,   Size,     Flags
+nvs,      data, nvs,     0x9000,   0x6000,
+otadata,  data, ota,     0xf000,   0x2000,
+phy_init, data, phy,     0x11000,  0x1000,
+ota_0,    app,  ota_0,   0x20000,  0x1E0000,
+ota_1,    app,  ota_1,   0x200000, 0x1E0000,
+storage,  data, spiffs,  0x3E0000, 0x20000,

@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Local database & runtime data
+backend/data/
+*.sqlite
+*.db
+*.log
+
+# Build output
+dist/
+build/
+*.o
+*.elf
+*.bin
+*.map
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
